@@ -7,6 +7,8 @@ Tags: responsive
 Version: 1.0
 */
 
-body {
-    background: red;
+.entry-summary img{
+    max-height: 290px;
+    width: auto;
+    margin: auto;
 }
