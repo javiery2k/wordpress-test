@@ -9,13 +9,15 @@ if (!defined('ABSPATH')) {
 /**
  * Loading the styles
  */
-function my_theme_enqueue_styles()
+function generic_child_enqueue_styles()
 {
+    wp_dequeue_style( 'generic-style' );
     wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
-    wp_enqueue_style('bulma-style', get_stylesheet_directory_uri() . '/bulma.min.css');
-    wp_enqueue_style('child-style', get_stylesheet_directory_uri() . '/style.css', array( 'parent-style' ));
+    wp_enqueue_style('bulma-style', get_stylesheet_directory_uri() . '/css/bulma.min.css');
+    wp_enqueue_style('child-style', get_stylesheet_directory_uri() . '/css/style.css');
+    wp_enqueue_script('child-script', get_stylesheet_directory_uri().'/js/main.js', array(), false, true);
 }
-add_action('wp_enqueue_scripts', 'my_theme_enqueue_styles');
+add_action('wp_enqueue_scripts', 'generic_child_enqueue_styles', 11);
 
 /**
  * Disable Editor Gutenberg
@@ -129,3 +131,13 @@ function my_custom_status_add_in_post_page()
 }
 add_action('admin_footer-post.php', 'my_custom_status_add_in_post_page');
 add_action('admin_footer-post-new.php', 'my_custom_status_add_in_post_page');
+
+
+
+
+function new_excerpt_more($more)
+{
+    global $post;
+    return $more . '<button data-id="'.  $post->ID . '" class="read-more">READ MORE</button>';
+}
+add_filter('the_excerpt', 'new_excerpt_more');
